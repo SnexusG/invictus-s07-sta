@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<li class = "list-group-item">
+    <div class="container">
+        <div class="col-md-12 col-lg-12">
+            <article class="post vt-post">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4">
+                        <div class="author-info author-info-2">
+                            <ul class="list-inline">
+                                <li>
+                                    <div class="info">
+                                        <p>Posted on:</p>
+                                        <strong>{{ post.datePosted }}</strong></div>
+                                </li>
+                                <li>
+                                    <div class="info">
+                                        <p>Likes : <strong>{{ post.likes }}</strong></p>
+                                </li>
+                                <li>
+                                    <div class="info">
+                                        <p>author : <strong><a href="{% url 'user_detail' post.authorID.id %}">{% if not post.stayAnonymous %}{{ post.authorID.username }}{% else %}Anonymous{% endif %}</a></strong>                                      {% if post.authorID.isExpert %}
+                                            <i class = "fa fa-user-md"></i> ( {% if post.authorID.isVerified %}verified{%else%}not-verified{% endif %})
+                                          {% endif %}</p></p>
+                                </li>
+                                <li>
+                                    <div class="info">
+                                    <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+                                    <script>
+                                    function myFunction(x) {
+                                        x.classList.toggle("fa-thumbs-down");
+                                    }
+                                    </script>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
+                        <div class="caption">
+                            <h3 class="md-heading"><a href="{% url 'post_details' post.id %}">{{ post.title }}</a></h3>
+                            <p> {{ post.body }} </p>
+                    </div>
+                </div>
+            </article>
+    </li>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-8">
+                <ul class = "list-group">
+                {% for comment in comments%}
+                <li class = "list-group-item">
+                <div class="d-flex flex-column comment-section">
+                    <div class="bg-white p-2">
+                            <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">
+                                {% if comment.postID.stayAnonymous and comment.authorID == post.authorID %}
+                                    Anonymous
+                                {% else %}
+                                    {{ comment.authorID.username }}
+                                {% endif %}
+                                {% if user.isExpert %}
+                                <i class = "fa fa-user-md"></i> ( {% if user.isVerified %}verified{%else%}not-verified{% endif %})
+                              {% endif %}</p></span><span class="date text-black-50">{{ comment.datePosted }}</span></div>
+                        </div>
+                        <div class="mt-2 bg-white p-2">
+                            <p class="comment-text">{{ comment.body }}</p> <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+                        </div>
+                    </div>
+                </li>
+                {% endfor %}
+                    <!-- <div class="bg-white">
+                        <div class="d-flex flex-row fs-12">
+                            <div class="like p-2 cursor"><i class="fa fa-thumbs-o-up"></i><span class="ml-1">Like</span></div>
+                            <div class="like p-2 cursor"><i class="fa fa-commenting-o"></i><span class="ml-1">Comment</span></div>
+                            <div class="like p-2 cursor"><i class="fa fa-share"></i><span class="ml-1">Share</span></div>
+                        </div>
+                    </div> -->
+                    <label for="{{ form.sender.id_for_label }}">Enter Comment Here :</label>
+                    <form  class="form-group" action="" method="POST">
+                        {% csrf_token %}
+                        {{ form.body }}
+                        <br>
+                        <br>
+                        <input class="btn btn-primary" type="submit" value="Submit">
+                    </form>
+                    <!-- <div class="bg-light p-2">
+                        <div class="d-flex flex-row align-items-start">
+                            <form action="/post/{{ post.pk }}/" method="POST">
+                                {% csrf_token %}
+                                <textarea class="form-control ml-1 shadow-none textarea"></textarea>
+                                <div class="mt-2 text-right"><button class="btn btn-primary btn-sm shadow-none" type="submit">Post comment</button>
+                                <button class="btn btn-outline-primary btn-sm ml-1 shadow-none" type="button">Cancel</button></div>
+                            </form>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

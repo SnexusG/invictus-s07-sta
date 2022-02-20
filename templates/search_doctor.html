@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% if user.is_authenticated %}
+
+{% block content %}
+
+
+
+<div class="dx-viewport demo-container list-group">
+    <h3>Verified Health Professionals</h3>
+    <br>
+    <div class="input-group">
+        <div class="form-outline">
+            <label class="form-label" for="form1">Search</label>
+          <input id="search-input" type="search" id="form1" class="form-control" />
+        </div>
+      </div>
+    <br>
+    <ul>
+    {% for doctor_user in users %}
+    <li class="list-group-item"><a href="{% url 'make_thread' doctor_user.pk %}">{{ doctor_user.name }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+
+
+
+{% endblock %}
+
+
+{% endif %}

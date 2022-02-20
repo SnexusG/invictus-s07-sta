@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Invictus Cares</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/nlp_compromise/6.5.5/nlp_compromise.min.js" integrity="sha512-oUZMKbBDD3utX5qE4zoOD3i8yYf/uTQpZpi7x90l5qN4vQQPF5fD8c70zUMyCpGMcmJ1fSIJhhF8/OqV1zqE+A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <script src="https://cdn3.devexpress.com/jslib/18.2.6/js/dx.all.js"></script>
+
+  <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/18.2.6/css/dx.common.css">
+  <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/18.2.6/css/dx.light.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'bird.css' %}">
+  <script src="{% static 'doctorPage.js' %}"></script>
+  <script src="{% static 'bird.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'doctorPage.css' %}">
+
+
+</head>
+<body>
+<div>
+<nav class="navbar navbar-default" style="background-color:lightblue">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">InvictusCares</a>
+    </div>
+    <ul class="nav navbar-nav list-group-horizontal">
+      
+    {% if user.is_authenticated %}
+        <li class="list-group-item"><a href="{% url 'user_detail_update'  user.id %}">Hey, {{ user.username }}</a></li>
+        <li class="list-group-item"><a href="{% url 'post_create' %}">Create New Post</a></li>
+        <li class="list-group-item"><a href="/chat">Messages</a></li>
+        {% if not user.isExpert %}
+          <li class="list-group-item"><a href="{% url 'search_doctor' %}">Contact Health Professional</a></li>
+        {% endif %}
+        <li class="list-group-item"><a href="{% url 'logout' %}">Log Out</a></li>
+    {% else %}
+      <li class="list-group-item"><a href = "/users/login">Login</a></li>
+      <li class="list-group-item"><a href = "{% url 'signup' %}">Sign Up</a></li>
+    {% endif %}
+    </ul>
+  </div>
+</nav>
+</div>
+<div class="container p-3 my-3 text-dark">
+{% block content %}
+{% endblock content%}
+</div>
+<!--
+    <div class="container">
+  <h3>Basic Navbar Example</h3>   
+  <p>A navigation bar is a navigation header that is placed at the top of the page.</p>
+</div>  
+-->
+
+</body>
+</html>
